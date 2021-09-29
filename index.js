@@ -8,30 +8,27 @@ const { dbConnection } = require('./database/config');
 //Crear el servidor de express
 const app = express();
 
-//Configurar cors
+//Configurar cors las url que queremos que se conecten a nuestra api
 app.use( cors() );
+
+//lecturas y parseo del body los datos del usuario para porder guardarlo
+app.use(express.json());
+
 
 
 //base de datos
 dbConnection();
-console.log( process.env );
+
+//     //urlcompleta para crear la data base y el ususario:
+//     //user creado por nosotros
+//     //user:mean_user
+//     //password:j7kfkfKKAbRmMWKQ
 
 //Rutas
-app.get( '/', (req , res) => {
-    //urlcompleta para crear la data base y el ususario:
-    //user creado por nosotros
-    //user:mean_user
-    //password:j7kfkfKKAbRmMWKQ
+app.use( '/api/usuarios', 
+//toda peticion que pase po la url de ariba lo mandara al archivo rutas 
+require('./routes/usuarios'))
 
-
-
-    res.status(400).json({
-        ok: true,
-        msg: 'Hola Mundo',
-        msjmarte: 'el alfredo esta rico los cabesones lo amaremos'
-    })
-
-});
 
 
 app.listen(process.env.PORT, () => {
