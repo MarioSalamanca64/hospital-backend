@@ -28,6 +28,7 @@ dbConnection();
 app.use( '/api/usuarios', 
 //toda peticion que pase po la url de ariba lo mandara al archivo rutas 
 require('./routes/usuarios'))
+app.use('/api/login',require('./routes/auth'))
 
 
 
