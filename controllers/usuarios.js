@@ -13,13 +13,15 @@ const getUsuarios = async(req , res) => {
 
     res.json({
         ok: true,
-        usuarios
+        usuarios,
+        //mostrar el id de el ususario que mado la peticion del json
+        //uid: req.uid
     })
 }
 
 const crearUsuario = async (req , res = response) => {
     //toma estos datos del body 
-    const {email , password , nombre} = req.body;
+    const {email , password } = req.body;
    
 
     try {
@@ -49,12 +51,8 @@ const crearUsuario = async (req , res = response) => {
     await usuario.save();
 
     //crear un jwt 
-    const token = await generarJWT( usuario.id );
-    res.json({
-        ok:true,
-        token
-    })
-
+     const token = await generarJWT( usuario.id );
+    
      //solo se puede poner una vez 
     res.json({
         ok: true,
@@ -72,6 +70,7 @@ const crearUsuario = async (req , res = response) => {
     }
 
 }
+
 const actualizarUsuario =  async(req, res = response) => {
 
     //todo: validar token y comprobar si es el usuario correcto
@@ -92,7 +91,7 @@ const actualizarUsuario =  async(req, res = response) => {
         // lo hacemos otra vez para que no meta esos campos
         //elementos que no se tocaran a la hora de actualizar el usuario
         //Actualizaciones
-        const {password, google, ...campos} = req.body;
+        const {password, google,  email, ...campos} = req.body;
 
         if( usuarioDB.email === req.body.email ){
             delete campos.email;
@@ -106,7 +105,7 @@ const actualizarUsuario =  async(req, res = response) => {
                 });
             }
         }
-
+        campos.email = email;
         // lo hacemos otra vez para que no meta esos campos
         //elementos que no se tocaran a la hora de actualizar el usuario
         // delete campos.password;
