@@ -14,7 +14,7 @@ const getUsuarios = async(req , res) => {
     res.json({
         ok: true,
         usuarios,
-        //mostrar el id de el ususario que mado la peticion del json
+        //mostrar el id de el usuario que mado la peticion del json
         //uid: req.uid
     })
 }

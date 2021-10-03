@@ -17,10 +17,10 @@ const validarJWT = (req,res,next) =>{
         const { uid } = jwt.verify(token, process.env.JWT_SECRET);
         //poniendo informacion en la req pasa si tiene el token si paso por la validacion del token
         //en si saca el id del que hace la peticion
-       req.uid = uid
+       req.uid = uid;
 
          //si todo sale bien 
-         next()
+         next();
 
     } catch ( error ) {
         return res.status(401).json({

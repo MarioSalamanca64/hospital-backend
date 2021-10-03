@@ -23,13 +23,15 @@ const router = Router();
     ],     
  crearUsuario );
 //actualizar usuario
- router.put('/:id', [
+ router.put('/:id', 
+ [
      validarJWT,
     check('nombre', 'El nombre es obligatorio').not().isEmpty(),
     check('email', 'El email es obligatorio').isEmail(),
-    check('role', 'El role es obligatorio').isEmail(),
+   // check('role', 'El role es obligatorio').isEmail(),
     validarCampos,
-], actualizarUsuario );
+], 
+actualizarUsuario);
 
 router.delete('/:id',
     validarJWT,
