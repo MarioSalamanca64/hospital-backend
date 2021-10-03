@@ -79,25 +79,27 @@ const actualizarUsuario =  async(req, res = response) => {
     // const {nombre, role ,email} = req.body;
 
     try {
-        //si existe el usuario finById moongoose
-        const usuarioDB = await Usuario.findById(uid, campos , { new : true });
-        //si no existe el usuario
-        if(!usuarioDB){
-            return res.status(404).json({
-                ok: false,
-                msg:'No existe un usuario por ese id'
-            })
-        }
+        // //si existe el usuario finById moongoose
+        const usuarioDB = await Usuario.findById(uid);
+        // //si no existe el usuario
+         if(!usuarioDB){
+             return res.status(404).json({
+                 ok: false,
+                 msg:'No existe un usuario por ese id'
+             });
+         }
+
+
         // lo hacemos otra vez para que no meta esos campos
         //elementos que no se tocaran a la hora de actualizar el usuario
         //Actualizaciones
-        const {password, google,  email, ...campos} = req.body;
+        //desestruturamos los objetos que no usaremos
+        const {password,google,email, ...campos} = req.body;
+      
 
-        if( usuarioDB.email === req.body.email ){
-            delete campos.email;
-        }else{
+        if( usuarioDB.email !== email ){
             //si existe el mismo email
-            const existeEmail = await Usuario.findOne({email: req.body.email});
+            const existeEmail = await Usuario.findOne({ email });
             if( existeEmail ){
                 return res.status(400).json({
                     ok:false,
@@ -105,18 +107,21 @@ const actualizarUsuario =  async(req, res = response) => {
                 });
             }
         }
+
         campos.email = email;
-        // lo hacemos otra vez para que no meta esos campos
-        //elementos que no se tocaran a la hora de actualizar el usuario
-        // delete campos.password;
-        // delete campos.google;
-        
-        const usuarioActualizado = await Usuario.findByIdAndUpdate( uid, campos)
+
+        // campos.email = email;
+        // // lo hacemos otra vez para que no meta esos campos
+        // //elementos que no se tocaran a la hora de actualizar el usuario
+        // // delete campos.password;
+        // // delete campos.google;
+        //indicar que siempre regrese el nuevo 
+        const usuarioActualizado = await Usuario.findByIdAndUpdate( uid, campos,{new: true})
 
 
         res.json({
             ok: true,
-            usuario: usuarioActualizado
+            usuario:usuarioActualizado
         });   
     } catch (error) {
         console.log(error);
