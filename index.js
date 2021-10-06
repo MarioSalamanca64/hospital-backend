@@ -28,7 +28,7 @@ dbConnection();
 app.use( '/api/usuarios', 
 //toda peticion que pase po la url de ariba lo mandara al archivo rutas 
 require('./routes/usuarios'));
-// app.use('/api/medicos',require('./routes/medicos'));
+app.use('/api/medicos',require('./routes/medicos'));
 app.use('/api/hospitales',require('./routes/hospitales'));
 app.use('/api/login',require('./routes/auth'));
 
