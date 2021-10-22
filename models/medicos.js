@@ -1,7 +1,7 @@
 const { Schema, model} = require('mongoose');
 
 
-const MedicosSchema = Schema({
+const MedicoSchema = Schema({
     //esto ara que se grabe este modelo en la base de datos
     nombre:{
         type: String,
@@ -24,7 +24,7 @@ const MedicosSchema = Schema({
 {collection:'medicos'});
 
 //cambiar nombre al id
-MedicosSchema.method('toJSON', function(){
+MedicoSchema.method('toJSON', function(){
     //estoy estrallendo la version y el id //...object todo lo demas y quitando el password
    const { __v, ...object } = this.toObject();
     //cambiar _id por uid
@@ -33,4 +33,4 @@ MedicosSchema.method('toJSON', function(){
 })
 
 //'Usuario' es el modelo de qui cada que alguna persona quiera grabar un ususario tiene que usar esete modelo
-module.exports = model('Usuario', MedicosSchema)
+module.exports = model('Medico', MedicoSchema)

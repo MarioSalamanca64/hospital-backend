@@ -11,6 +11,7 @@ const HospitalSchema = Schema({
         type: String
     },
     usuario: {
+        require: true,
         //ten una referencia de otro archivo
         type: Schema.Types.ObjectId,
         ref: 'Usuario'
@@ -22,10 +23,10 @@ const HospitalSchema = Schema({
 HospitalSchema.method('toJSON', function(){
     //estoy estrallendo la version y el id //...object todo lo demas y quitando el password
    const { __v, ...object } = this.toObject();
-    //cambiar _id por uid
-   object.id = _id;
+  
+  
    return object;
 })
 
 //'Usuario' es el modelo de qui cada que alguna persona quiera grabar un ususario tiene que usar esete modelo
-module.exports = model('Usuario', HospitalSchema)
+module.exports = model('Hospital', HospitalSchema)
