@@ -25,9 +25,11 @@ const router = Router();
 //segunda comillas es midelware y el tersero son controladores
  router.post( '/', 
     [
-     
+        validarJWT,
+        check('nombre','El nombre del medico es nesesario').not().isEmpty(),
+        validarCampos
     ],     
-    crearMedico );
+    crearMedico);
 //actualizar usuario
  router.put('/:id', 
  [

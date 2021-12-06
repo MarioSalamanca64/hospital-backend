@@ -13,12 +13,14 @@ const MedicoSchema = Schema({
     usuario: {
         //ten una referencia de otro archivo
         type: Schema.Types.ObjectId,
-        ref: 'Usuario'
+        ref: 'Usuario',
+        required: true
     },
     hospital: {
         //ten una referencia de otro archivo
         type: Schema.Types.ObjectId,
-        ref: 'Hospital'
+        ref: 'Hospital',
+        required:true
     }
 },//cambiar nombres de la tabla 
 {collection:'medicos'});
@@ -28,7 +30,7 @@ MedicoSchema.method('toJSON', function(){
     //estoy estrallendo la version y el id //...object todo lo demas y quitando el password
    const { __v, ...object } = this.toObject();
     //cambiar _id por uid
-   object.id = _id;
+   //object.id = _id;
    return object;
 })
 

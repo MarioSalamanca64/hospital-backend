@@ -1,17 +1,44 @@
 const {response} = require('express')
 
-const  getMedicos = (req,res= response) => {
-    res.json ({
-        ok: true,
-        msg: 'getMedicos'
-    })
+const Medico = require('../models/medicos')
+
+const  getMedicos = async(req,res= response) => {
+
+    const medicos = await Medico.find()
+                                //trae los datos del usuario que lo creo y del hospital
+                                .populate('usuario','nombre img')
+                                .populate('hospital','nombre img');
+     res.json ({
+         ok: true,
+         medicos
+     })
 }
 
-const  crearMedico = (req,res) => {
-    res.json ({
-        ok: true,
-        msg: 'crearMedico'
-    })
+const  crearMedico = async(req,res) => {
+
+    const uid = req.uid;
+    const medico = new Medico({
+        //id del usuario 
+        usuario: uid,
+        //respuesta del  body 
+        ...req.body
+    });
+
+    try {
+
+        const medicoDB = await medico.save();
+
+        res.json ({
+            ok: true,
+            msg: 'Se creo el medico',medicoDB
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg:'Hable con el administrador'
+        })
+    }
 }
 
 const  actualizarMedico = (req,res) => {
