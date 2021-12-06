@@ -8,12 +8,40 @@ const { generarJWT } = require('../helpers/jwt')
 
 
 const getUsuarios = async(req , res) => {
-    //find() quiero todos los usuarios // filtra nombre emial role google
-    const usuarios = await Usuario.find({}, 'nombre email role google');
+    //paginacion de 5 
+    //si no trae nombre esntonces que utilice 0 
+    const desde = Number(req.query.desde) || 0;
+    //console.log(desde);
+    
 
+    //find() quiero todos los usuarios // filtra nombre emial role google
+    // const usuarios = await Usuario.find({}, 
+    //                                         'nombre email role google')
+    //                                         //que ignore todo aparter de en estecaso del 0 al final y si fuera el 5 del 5 al final
+    //                                         .skip( desde )
+    //                                         //solo tendra un limite de cuantas mostrara 
+    //                                         .limit( 5 );
+    // //el total de todos los registros
+    // const total = await Usuario.count();  
+
+    //un coleccion de promesas para que la promesa si interfiera con la otra y sean las dos al mismo tiempo se usa esta funcion 
+    const [ usuarios, total ] = await Promise.all([
+
+        Usuario
+                       .find({},'nombre email role google')
+                       //que ignore todo aparter de en estecaso del 0 al final y si fuera el 5 del 5 al final
+                       .skip( desde )
+                       //solo tendra un limite de cuantas mostrara 
+                       .limit( 5 ),
+        //total de usuarios               
+        Usuario.count()
+    ]
+    )
+                                            
     res.json({
         ok: true,
         usuarios,
+        total
         //mostrar el id de el usuario que mado la peticion del json
         //uid: req.uid
     })
