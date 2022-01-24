@@ -28,13 +28,13 @@ const getUsuarios = async(req , res) => {
     const [ usuarios, total ] = await Promise.all([
 
         Usuario
-                       .find({},'nombre email role google')
+                       .find({},'nombre email role google img')
                        //que ignore todo aparter de en estecaso del 0 al final y si fuera el 5 del 5 al final
                        .skip( desde )
                        //solo tendra un limite de cuantas mostrara 
                        .limit( 5 ),
         //total de usuarios               
-        Usuario.count()
+        Usuario.countDocuments()
     ]
     )
                                             

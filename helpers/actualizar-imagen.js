@@ -5,9 +5,18 @@ const Usuario  = require('../models/usuario');
 const Medicos  = require('../models/medicos');
 const Hospital = require('../models/hospital');
 
+const borrarImagen = (path) => {
+
+    if(fs.existsSync(path)){
+        // borrar la imagen anterior
+        fs.unlinkSync(path);
+    }
+    
+}
 
 const actualizarImagen = async (tipo, id,  nombreArchivo) => {
-   
+   let pathViejo = '';
+
     switch ( tipo ) {
         case 'medicos':
             const medico = await Medicos.findById(id);
@@ -17,12 +26,9 @@ const actualizarImagen = async (tipo, id,  nombreArchivo) => {
                 return false;
             }
             //borrar la imagen y dejar la nueva
-            const pathViejo = `./uploads/medicos/${ medico.img }`;
+            pathViejo = `./uploads/medicos/${ medico.img }`;
 
-            if(fs.existsSync(pathViejo)){
-                // borrar la imagen anterior
-                fs.unlinkSync(pathViejo)
-            }
+            borrarImagen(pathViejo);
 
             medico.img = nombreArchivo;
             //guardemos el medico
@@ -32,10 +38,40 @@ const actualizarImagen = async (tipo, id,  nombreArchivo) => {
         break;
 
         case 'hospitales':
+            const hospital = await Hospital.findById(id);
+            //verificar si el medico existe por _id
+            if( !hospital){
+                console.log('No es un medico por id');
+                return false;
+            }
+            //borrar la imagen y dejar la nueva
+             pathViejo = `./uploads/hospitales/${ hospital.img }`;
+
+            borrarImagen(pathViejo);
+
+            hospital.img = nombreArchivo;
+            //guardemos el medico
+            await hospital.save();
+            return true;
             
         break;
 
         case 'usuarios':
+            const usuario = await Usuario.findById(id);
+            //verificar si el medico existe por _id
+            if( !usuario){
+                console.log('No es un medico por id');
+                return false;
+            }
+            //borrar la imagen y dejar la nueva
+            pathViejo3 = `./uploads/usuario/${ usuario.img }`;
+
+            borrarImagen(pathViejo);
+
+            usuario.img = nombreArchivo;
+            //guardemos el medico
+            await usuario.save();
+            return true;
             
         break;
     }
