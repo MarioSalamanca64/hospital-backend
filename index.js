@@ -18,11 +18,13 @@ app.use(express.json());
 
 //base de datos
 dbConnection();
-
 //     //urlcompleta para crear la data base y el ususario:
 //     //user creado por nosotros
 //     //user:mean_user
 //     //password:j7kfkfKKAbRmMWKQ
+
+//Directorio publico
+app.use( express.static('public'))
 
 //Rutas
 app.use( '/api/usuarios', 
