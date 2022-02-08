@@ -2,7 +2,8 @@ const {response} = require('express');
 const bcrypt = require('bcryptjs');
 
 const Usuario = require('../models/usuario')
-const { generarJWT } = require('../helpers/jwt')
+const { generarJWT } = require('../helpers/jwt');
+const { googleVerify } = require('../helpers/google-verify');
 
 const login = async( req, res = response) => {
     //sacara los elementos del body 
@@ -46,11 +47,34 @@ const login = async( req, res = response) => {
             msg:'hable con el administrador'
         })
     }
+}
+const googleSingnIn = async(req,res = response) => {
+
+    const googleToken = req.body.token;
+
+    try {
+
+      const {name,email,picture} = await googleVerify(googleToken);
+
+        res.json({
+            ok: true,
+            msg: 'Google Signin',
+            name,email,picture
+        });
+        
+    } catch (error) {
+        res.status(401).json({
+            ok: false,
+            msg: 'Token no es correcto',
+            
+        });
+    }
 
 
 }
 
 
 module.exports = {
-    login
+    login,
+    googleSingnIn
 }
