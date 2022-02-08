@@ -94,9 +94,23 @@ const googleSingnIn = async(req,res = response) => {
 
 
 }
+//actualizar Token
+const renewToken = async(req,res = response) => {
+    
+    const uid = req.uid
+
+     //generar los token - JWT await es por que es una promesa ya que lo trasformamos en helpers
+     const token = await generarJWT( uid.id );
+    
+    res.json({
+        ok: true,
+        uid
+    });
+}
 
 
 module.exports = {
     login,
-    googleSingnIn
+    googleSingnIn,
+    renewToken
 }
