@@ -55,9 +55,31 @@ const googleSingnIn = async(req,res = response) => {
     try {
 
       const {name,email,picture} = await googleVerify(googleToken);
+      //verificar si el usuario existe
+      const usuarioDB = await Usuario.findOne({email})
+      let usuario;
+      if(!usuarioDB){
+          //si el usuario no existe
+        usuario = Usuario({
+            nombre: name,
+            email,
+            password: '@@@',
+            img:picture,
+            google: true
+        })
+      }else{
+          // existe usuario
+          usuario = usuarioDB;
+          usuario.google = true;
+      }
+      //guardar en DB
+      await usuario.save();
+      //generar los token - JWT await es por que es una promesa ya que lo trasformamos en helpers
+      const token = await generarJWT( usuario.id );
 
         res.json({
             ok: true,
+            token,
             msg: 'Google Signin',
             name,email,picture
         });
