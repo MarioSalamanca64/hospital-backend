@@ -34,7 +34,9 @@ const router = Router();
 //actualizar usuario
  router.put('/:id', 
  [  
-
+    validarJWT,
+    check('nombre','El nombre del hospital es nesesario').not().isEmpty(),
+    validarCampos
 ], 
 actualizarHospitales);
 
