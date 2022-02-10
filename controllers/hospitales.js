@@ -53,7 +53,7 @@ const  actualizarHospitales = async(req,res) => {
         if(!hospital){
            return res.status(404).json({
                 ok:true,
-                msg: 'Hospiatl no encontrado por id'
+                msg: 'Hospiatal no encontrado por id'
             });
         }
         //solo un campo
@@ -81,11 +81,36 @@ const  actualizarHospitales = async(req,res) => {
 
 }
 
-const  borrarHospitales = (req,res) => {
-    res.json ({
-        ok: true,
-        msg: 'borrarHospiatales'
-    })
+const  borrarHospitales = async(req,res = response) => {
+
+    const id  = req.params.id;
+
+    try {
+
+        const hospital = await Hospital.findById(id);
+
+        if(!hospital){
+           return res.status(404).json({
+                ok:true,
+                msg: 'Hospiatal no encontrado por id'
+            });
+        }
+        
+        await Hospital.findByIdAndDelete(id)
+
+
+        
+        res.json ({
+            ok: true,
+            msg:'hospital eliminado'
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok:false,
+            msg: 'Hable con el administrador'
+        })
+    }
 }
 
 

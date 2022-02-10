@@ -27,13 +27,17 @@ const router = Router();
     [
         validarJWT,
         check('nombre','El nombre del medico es nesesario').not().isEmpty(),
+        check('hospital','El hospital od debe de ser valido').isMongoId(),
         validarCampos
     ],     
     crearMedico);
 //actualizar usuario
  router.put('/:id', 
  [
-
+    validarJWT,
+    check('nombre','El nombre del medico es nesesario').not().isEmpty(),
+    check('hospital','El hospital od debe de ser valido').isMongoId(),
+    validarCampos
 ], 
 actualizarMedico);
 

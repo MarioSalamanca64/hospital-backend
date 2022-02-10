@@ -41,6 +41,7 @@ const router = Router();
 actualizarHospitales);
 
 router.delete('/:id',
+    validarJWT,
     borrarHospitales
 );
 
