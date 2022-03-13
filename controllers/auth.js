@@ -10,9 +10,6 @@ const login = async( req, res = response) => {
     const {email, password} = req.body;
     
     try {
-
-
- 
         //si existe el email verificar email
         const usuarioDB = await Usuario.findOne({ email });
         //si no existe el email detiene todo 
@@ -101,11 +98,15 @@ const renewToken = async(req,res = response) => {
 
      //generar los token - JWT await es por que es una promesa ya que lo trasformamos en helpers
      const token = await generarJWT( uid );
+    //Obtener el usuario por uid
+    const usuario = await Usuario.findById( uid  )
+
     
     res.json({
         ok: true,
         uid,
-        token
+        token,
+        usuario
     });
 }
 
