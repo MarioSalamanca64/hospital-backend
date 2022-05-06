@@ -27,7 +27,7 @@ const router = Router();
         validarJWT,
         check('nombre','El nombre del hospital es nesesario').not().isEmpty(),
         //validacion de id de mongo
-        check('hospital','El hospital id debe de ser valido').isMongoId(),
+        //check('hospital','El hospital id debe de ser valido').isMongoId(),
         validarCampos
     ],     
     crearHospital );
