@@ -1,5 +1,8 @@
 require('dotenv').config();
 
+//parte de ultimo
+// const path = require('path');
+
 const express = require('express');
 //npm i dotenv
 const cors = require('cors')
@@ -36,6 +39,10 @@ app.use('/api/todo',require('./routes/busquedas'));
 app.use('/api/login',require('./routes/auth'));
 app.use('/api/uploads', require('./routes/uploads'));
 
+//ultimo como manejar las rutas cualquiera fuera de las que tenemos por si queremos meter la app a aqui mismo en node 
+// app.get('*',(req,res) => {
+//     res.sendFile(path.resolve(__dirname,'public/index.html'));
+// });
 
 
 
